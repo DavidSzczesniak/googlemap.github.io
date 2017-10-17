@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Google Map</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <style>
+    #click-info {
+        margin-left: 600px;
+        margin-top: 75px;
+        border: solid 3px darkgrey;
+        margin-right: 630px;
+        background-color: lightgrey;
+        border-radius: 2px;
+    }
+
+    .map-title {
+        margin-left: 600px;
+        margin-top: 200px;
+        border: solid 3px darkgrey;
+        margin-right: 1020px;
+        background-color: lightgrey;
+        border-radius: 2px;
+    }
+
+    
+    body {
+        font-family: 'Raleway', sans-serif;
+        background-image: url("googlemaps background.jpg");
+        background-size: 1860px 1025px;
+    }
+
+    #map {
+        border: solid 5px darkgrey;
+        height: 400px;
+        width: 600px;
+        margin-left: 600px;
+        margin-top: 75px;
+    }
+
+
+    
+
+    </style>
+</head>
+<body>
+    <h1 class="map-title">Example map</h1>
+   <div id="map"></div>
+   <script>
+       function initMap() {
+         // Map options
+         var options = {
+             zoom: 9,
+             center: {lat:52.0030, lng:-0.4651}
+         }
+       
+       // New map
+       var map = new 
+       google.maps.Map(document.getElementById('map'), options);
+
+
+
+       // Listen for click on map
+       google.maps.event.addListener(map, 'click', 
+       function(event){
+           // Add marker
+         addMarker({coords:event.latLng});
+       });
+/*
+       // Add marker
+       var marker = new google.maps.Marker( {
+         position:{lat:51.8856, lng:-0.5204},
+         map:map
+       });
+       
+
+         var infoWindow = new google.maps.InfoWindow( {
+             content: '<h1>Dunstable</h1>'
+         });
+
+         marker.addListener('click', function() {
+             infoWindow.open(map, marker);
+         });
+*/
+
+        // Array of markers
+        var markers = [
+            {
+              coords:{lat:51.8856, lng:-0.5204},
+              iconImage:'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+              content:'<h1>Dunstable</h1>'
+            },
+            
+            {
+              coords:{lat:51.8787, lng:-0.4200},
+              content:'<h1>Luton</h1>'
+            },
+
+            {
+              coords:{lat:51.7532, lng:-0.4486}
+            }    
+
+        ]; 
+
+        // Loop through markers
+        for(var i =0; i < markers.length;i++){
+          // Add marker
+          addMarker(markers[i]);  
+
+        }
+        
+        
+        // Add marker function
+        function addMarker (props){
+          var marker = new google.maps.Marker( {
+           position:props.coords,
+           map:map,
+           //icon:props.iconImage
+       });
+
+       // Check for cusom icon 
+       if(props.iconImage){
+           // Set icon image
+           marker.setIcon(props.iconImage);
+       }
+        
+        // Check content
+        if(props.content){
+            var infoWindow = new google.maps.InfoWindow( {
+             content:props.content
+         });
+
+         marker.addListener('click', function() {
+             infoWindow.open(map, marker);
+         });  
+
+        }
+        }
+
+       }
+   </script> 
+   
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4M8y6pPAsaYglM0V-0EFyxOcCzqNK0P4&callback=initMap">
+    </script>
+
+    <h3 id="click-info">Click to set marker (temp. feature - they disappear on reload anyway)</h3>
+
+</body>
+</html>
